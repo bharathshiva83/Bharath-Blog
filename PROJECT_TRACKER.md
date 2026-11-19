@@ -1,72 +1,82 @@
-# Palancha Bharath Shiva — Personal Website & Technical Portfolio
+# Palancha Bharath Shiva — Project Memory & Context Tracker
 
-## 1. Overview
-- **Owner**: Palancha Bharath Shiva
-- **Role**: AI & Computer Vision Engineer (EON Space Labs)
-- **Education**: B.Tech in Computer Science & Data Science — JNTUH (Jawaharlal Nehru Technological University, Hyderabad)
-- **GitHub**: [bharathshiva83](https://github.com/bharathshiva83)
-- **LinkedIn**: [palanchabharath](https://www.linkedin.com/in/palanchabharath)
-- **Email**: palanchabharath2828@gmail.com
-- **Design Philosophy**: Minimalist, craft-driven design inspired by Emil Kowalski (clean typography, focused `max-w-2xl` reading stream, neutral monochromatic palette, zero AI slop, no Twitter/X).
-- **Hosting**: Free GitHub Pages with automated CI/CD via GitHub Actions.
+> **Notice for AI Assistants & Future Sessions**:
+> Read this file **first** before making any suggestions or changes. This document tracks all architectural decisions, hard constraints, and the complete session history to prevent regressions across context resets.
 
 ---
 
-## 2. Where to Edit Your Content
+## 1. Project Invariants & Hard Constraints (NEVER VIOLATE)
 
-Everything on your website is controlled by **[src/data/profile.ts](file:///c:/Users/BHARATH%20SHIVA/Documents/GitHub/Bharath%20Blog/src/data/profile.ts)**:
-
-| Section | What to Edit in `src/data/profile.ts` |
+| Invariant | Rule |
 | :--- | :--- |
-| **Personal Bio & Tagline** | `personalInfo.tagline`, `personalInfo.about` |
-| **Status Badge** | `personalInfo.status` (`"Available for work"`, `"Open to roles"`, etc.) |
+| **Education** | **STRICTLY JNTUH** (`JNTUH (Jawaharlal Nehru Technological University, Hyderabad)`). **NEVER mention Sphoorthy anywhere** in code, text, or docs. |
+| **Socials** | Strictly **LinkedIn** (`palanchabharath`), **GitHub** (`bharathshiva83`), and **Email** (`palanchabharath2828@gmail.com`). **NEVER add Twitter / X.** |
+| **Career Domain** | **AI & Computer Vision Engineer** at **EON Space Labs** (multi-sensor PTZ surveillance, YOLOv8/v11, ByteTrack, **30+ FPS**, NVIDIA Jetson Orin/Nano, PyQt5). Not a generic web dev. |
+| **Design Style** | **Emil Kowalski craft aesthetic**: centered `max-w-2xl` stream, monochromatic dark/light toggle (`#FFFFFF` / `#080808`), Inter + JetBrains Mono, zero AI slop / gradients. |
+| **Communication** | Keep all assistant responses **brief, concise, and direct** — no long fluffy paragraphs. |
+| **Single Source of Truth** | All bio, experiences, skills, projects, and resume data live in [`src/data/profile.ts`](file:///c:/Users/BHARATH%20SHIVA/Documents/GitHub/Bharath%20Blog/src/data/profile.ts). |
+| **Dev Toolbar** | Keep Astro dev toolbar **disabled** (`devToolbar: { enabled: false }` in `astro.config.mjs`) to avoid bottom island/cursor widgets. |
+
+---
+
+## 2. Technical Stack & Live URLs
+
+- **Framework**: Astro 4.16 + TypeScript + Tailwind CSS (via `@astrojs/tailwind`)
+- **Content Collections**: Markdown posts in `src/content/blog/`
+- **Hosting**: Free GitHub Pages
+- **CI/CD**: GitHub Actions via `.github/workflows/deploy.yml` with `Source: GitHub Actions`
+- **Live Site**: [https://bharathshiva83.github.io/Bharath-Blog/](https://bharathshiva83.github.io/Bharath-Blog/)
+- **Live Resume Page**: [https://bharathshiva83.github.io/Bharath-Blog/resume](https://bharathshiva83.github.io/Bharath-Blog/resume)
+- **Live Resume PDF**: [https://bharathshiva83.github.io/Bharath-Blog/resume.pdf](https://bharathshiva83.github.io/Bharath-Blog/resume.pdf)
+
+---
+
+## 3. Where to Edit Project Content
+
+All website data is controlled from a single configuration file: **[`src/data/profile.ts`](file:///c:/Users/BHARATH%20SHIVA/Documents/GitHub/Bharath%20Blog/src/data/profile.ts)**:
+
+| Section | Location in `src/data/profile.ts` |
+| :--- | :--- |
+| **Tagline & Bio** | `personalInfo.tagline`, `personalInfo.about` |
+| **Availability Badge** | `personalInfo.status` |
 | **Work Experience** | `experiences` array (roles, companies, dates, impact bullets) |
-| **Projects** | `projects` array (titles, descriptions, tags, code/live links) |
-| **Resume PDF File** | `resume.pdfUrl` (place file in `public/resume.pdf` or paste Google Drive link) |
-| **Resume Summary** | `resume.summary` |
-| **Resume Skills & Certs** | `skills` array & `resume.certifications` array |
-| **Education** | `education` object |
-| **New Blog Posts** | Create `.md` files in `src/content/blog/` |
+| **Projects** | `projects` array (titles, descriptions, tags, GitHub links) |
+| **Skills** | `skills` array (categories and comma-separated items) |
+| **Education** | `education` object (JNTUH) |
+| **Publications** | `publications` array (title, journal, date, DOI, paper PDF link) |
+| **Resume PDF Path** | `resume.pdfUrl` (set to `"/Bharath-Blog/resume.pdf"`) |
+| **New Articles** | Create `.md` files in `src/content/blog/` |
 
 ---
 
-## 3. How to Update Your Resume PDF
+## 4. Resume & Download Architecture
 
-1. Save your resume PDF as **`resume.pdf`** inside the **`public/`** folder:
-   ```text
-   public/
-   └── resume.pdf
-   ```
-2. In `src/data/profile.ts`, `resume.pdfUrl` is already configured to `"/Bharath-Blog/resume.pdf"`.
-   *(Or if you prefer Google Drive/Dropbox, simply paste the share link into `resume.pdfUrl`).*
-3. The **"Download PDF"** button on the `/resume` page will instantly download your PDF!
+- **PDF Storage**: The physical resume is placed at [`public/resume.pdf`](file:///c:/Users/BHARATH%20SHIVA/Documents/GitHub/Bharath%20Blog/public/resume.pdf).
+- **Download Behavior**: Chromium/Edge internal PDF viewer intercepts plain PDF links. To guarantee a native file download directly into the user's `Downloads` folder:
+  1. The page pre-loads the PDF into memory as a `blob:` URL upon page load.
+  2. Vite/dev server sets `Content-Disposition: attachment; filename="Palancha_Bharath_Shiva_Resume.pdf"`.
+- **View in Browser**: The **"View PDF ↗"** button opens the document inside the browser's native PDF reader.
+- **Print / Save**: The **"Print"** button triggers `@media print` CSS, hiding header, footer, and dark backgrounds for clean 1-page paper printing or saving.
 
 ---
 
-## 4. Deploying Updates Live
+## 5. Chronological Session & Decision History
 
-```bash
-git add .
-git commit -m "update details"
-git push origin main
-```
-GitHub Actions builds and publishes changes live to `https://bharathshiva83.github.io/Bharath-Blog/`.
+### Session 1: Migration & Emil Kowalski Redesign
+- Replaced old Jekyll setup with Astro 4.16 + Tailwind CSS.
+- Applied Emil Kowalski design principles (streamlined reading layout, high-contrast dark/light mode, micro-interactions).
 
----
+### Session 2: Profile & Resume Alignment
+- Ingested Palancha Bharath Shiva's official resume.
+- Specialization: AI & Computer Vision Engineer at EON Space Labs (multi-sensor PTZ, YOLOv8/v11, ByteTrack, super-resolution).
+- Implemented **JNTUH** education constraint (completely purged any mention of Sphoorthy).
+- Integrated peer-reviewed research paper: *Bone Fracture Detection with Deep Learning and Ensemble of CNN Models in X-Ray Images* (IJARSCT, May 2025) with direct Paper PDF (`https://www.ijarsct.co.in/Paper26934.pdf`) and DOI links.
 
-## 5. Architectural Decisions & Changelog
+### Session 3: UI Polish, Cleanup & Download Reliability
+- Disabled Astro dev toolbar (`devToolbar: { enabled: false }`) to eliminate the floating bottom island/cursor widget.
+- Cleaned repository: Deleted all legacy Jekyll folders (`_data/`, `_includes/`, `_layouts/`, `_posts/`, `assets/`, `_config.yml`, `404.html`, etc.).
+- Fixed resume download via pre-loaded Blob URL mechanism to prevent browser PDF viewer interception.
+- Synchronized all FPS references from `20+ FPS` to `30+ FPS` across resume summary, job bullets, and project cards.
+- Configured GitHub Actions Pages deployment (`Source: GitHub Actions`), verified live production build at `https://bharathshiva83.github.io/Bharath-Blog/`.
 
-### Key Decisions Made:
-1. **Tech Stack Migration**: Migrated from legacy Jekyll to **Astro 4 + Tailwind CSS + TypeScript + Content Collections**. Fast static generation and zero runtime JS overhead.
-2. **Design Philosophy**: Emil Kowalski minimalist aesthetic (centered `max-w-2xl` stream, monochromatic dark/light toggle, Inter & JetBrains Mono typography, zero AI gradients/rainbow slop).
-3. **Single Source of Truth**: All personal bio, experiences, projects, skills, and resume data centralized in [`src/data/profile.ts`](file:///c:/Users/BHARATH%20SHIVA/Documents/GitHub/Bharath%20Blog/src/data/profile.ts). Editing one file updates the entire site.
-4. **Education Constraint**: Strictly specified as **JNTUH (Jawaharlal Nehru Technological University, Hyderabad)**. Sphoorthy strictly omitted from all pages.
-5. **Socials Policy**: Strictly LinkedIn, GitHub, and Email (zero Twitter/X references).
-6. **Domain Focus**: Tailored to **AI & Computer Vision Engineer** at **EON Space Labs** (multi-sensor PTZ, YOLOv8/v11, ByteTrack, 30+ FPS, NVIDIA Jetson, super-resolution).
-7. **Research Publication**: Showcased *Bone Fracture Detection with Deep Learning and Ensemble of CNN Models in X-Ray Images* (IJARSCT) with direct paper PDF and DOI links.
-8. **Dev Toolbar Removal**: Disabled Astro dev toolbar (`devToolbar: { enabled: false }`) to eliminate the floating bottom island/cursor widget.
-9. **Reliable Resume Download**: Implemented preloaded Blob URL download + `Content-Disposition: attachment` headers to prevent Chrome/Edge from hijacking downloads into their internal viewer. Added **"View PDF"** and `@media print` styles.
-10. **Repository Cleanup**: Pruned all legacy Jekyll files (`_data/`, `_includes/`, `_layouts/`, `_posts/`, `assets/`, `_config.yml`, `404.html`, `build-preview.js`, etc.).
-11. **Hosting & CI/CD**: Free GitHub Pages automated via `.github/workflows/deploy.yml` with `Source: GitHub Actions`.
-12. **Security & Privacy**: Verified zero API keys or secrets in repository. Added `.env*` to `.gitignore`. Code is public on GitHub (standard for engineers).
 
