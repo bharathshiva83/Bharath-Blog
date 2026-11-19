@@ -26,7 +26,7 @@ export const personalInfo = {
 
 export const resume = {
   pdfUrl: "/Bharath-Blog/resume.pdf",
-  summary: "AI/Computer Vision Engineer with 1+ year of experience building and deploying real-time object detection, multi-object tracking, and edge-inference systems. Skilled in training custom deep learning models end-to-end — dataset curation, training, and optimization for GPU and embedded edge platforms — achieving 20+ FPS real-time inference in field-validated deployments. Experienced across the full development cycle, including hardware integration, GUI development, and proof-of-concept delivery.",
+  summary: "AI/Computer Vision Engineer with 1+ year of experience building and deploying real-time object detection, multi-object tracking, and edge-inference systems. Skilled in training custom deep learning models end-to-end — dataset curation, training, and optimization for GPU and embedded edge platforms — achieving 30+ FPS real-time inference in field-validated deployments. Experienced across the full development cycle, including hardware integration, GUI development, and proof-of-concept delivery.",
   certifications: []
 };
 
@@ -39,7 +39,7 @@ export const experiences = [
     bullets: [
       "Led end-to-end development of a multi-sensor PTZ surveillance system, integrating real-time video feeds, sensor controls, pan-tilt operation, AI-based detection/tracking, and target management into a unified operator interface.",
       "Designed and built PyQt5 GUI applications for sensor control, pan-tilt actuation, AI inference toggles, and auto-zoom/tracking workflows, deployed across live field systems.",
-      "Developed and optimized custom YOLO-based object detection models on domain-specific datasets for FOD (Foreign Object Debris), aerial monitoring, and surveillance systems, achieving 20+ FPS real-time inference validated through field trials.",
+      "Developed and optimized custom YOLO-based object detection models on domain-specific datasets for FOD (Foreign Object Debris), aerial monitoring, and surveillance systems, achieving 30+ FPS real-time inference validated through field trials.",
       "Developed multi-object tracking pipelines with auto-tracking and target persistence for live video streams; implemented real-time image enhancement using super-resolution models (FSRCNN, EDSR) to improve long-range feed clarity.",
       "Built and demonstrated functional prototypes and proof-of-concept systems to enterprise clients under real-world operating conditions."
     ]
@@ -73,7 +73,7 @@ export const projects = [
   },
   {
     title: "Multi-Sensor PTZ Surveillance System",
-    description: "Operator control platform integrating real-time EO/IR feeds, pan-tilt actuation, custom YOLOv8/v11 detection models (20+ FPS), and ByteTrack multi-object tracking for field-grade surveillance.",
+    description: "Operator control platform integrating real-time EO/IR feeds, pan-tilt actuation, custom YOLOv8/v11 detection models (30+ FPS), and ByteTrack multi-object tracking for field-grade surveillance.",
     tags: ["PyQt5", "YOLOv8", "TensorRT", "Jetson Orin", "OpenCV"],
     github: "https://github.com/bharathshiva83",
   },
