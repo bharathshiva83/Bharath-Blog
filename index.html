@@ -1,0 +1,179 @@
+---
+layout: default
+title: Home
+---
+
+<!-- Hero Section -->
+<section class="hero-section">
+  <div class="hero-content">
+    <div class="status-pill">
+      <span class="status-dot"></span>
+      <span>Available for software engineering opportunities</span>
+    </div>
+
+    <h1 class="hero-title">
+      Building robust systems & sharing lessons in <span class="accent-text">code & architecture</span>.
+    </h1>
+
+    <p class="hero-subtitle">
+      Hi, I'm <strong>Bharath Shiva</strong>. I am a software developer focused on building modern web applications, scalable backend systems, and delightful developer experiences.
+    </p>
+
+    <div class="hero-cta">
+      <a href="{{ '/projects.html' | relative_url }}" class="btn btn-primary">
+        <span>Explore Projects</span>
+        <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2">
+          <line x1="5" y1="12" x2="19" y2="12"></line>
+          <polyline points="12 5 19 12 12 19"></polyline>
+        </svg>
+      </a>
+      <a href="{{ '/about.html' | relative_url }}" class="btn btn-outline">About Me</a>
+    </div>
+
+    <div class="tech-pills">
+      <span class="tech-pill-label">Core Stack:</span>
+      <span class="tech-pill">TypeScript</span>
+      <span class="tech-pill">Python</span>
+      <span class="tech-pill">React</span>
+      <span class="tech-pill">Node.js</span>
+      <span class="tech-pill">Cloud & Docker</span>
+    </div>
+  </div>
+</section>
+
+<!-- Featured Projects Section -->
+<section class="section-container" id="projects">
+  <div class="section-header">
+    <div>
+      <h2 class="section-title">Featured Projects</h2>
+      <p class="section-desc">A selection of recent applications, platforms, and open-source tools.</p>
+    </div>
+    <a href="{{ '/projects.html' | relative_url }}" class="section-link">
+      <span>View all projects</span>
+      <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2">
+        <line x1="5" y1="12" x2="19" y2="12"></line>
+        <polyline points="12 5 19 12 12 19"></polyline>
+      </svg>
+    </a>
+  </div>
+
+  <div class="projects-grid">
+    {% for project in site.data.projects %}
+      {% if project.featured %}
+        <div class="project-card">
+          <div>
+            <div class="project-icon">
+              {% if project.icon == "code" %}
+                <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2">
+                  <polyline points="16 18 22 12 16 6"></polyline>
+                  <polyline points="8 6 2 12 8 18"></polyline>
+                </svg>
+              {% elsif project.icon == "chart" %}
+                <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2">
+                  <line x1="18" y1="20" x2="18" y2="10"></line>
+                  <line x1="12" y1="20" x2="12" y2="4"></line>
+                  <line x1="6" y1="20" x2="6" y2="14"></line>
+                </svg>
+              {% else %}
+                <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path>
+                  <line x1="3" y1="6" x2="21" y2="6"></line>
+                  <path d="M16 10a4 4 0 0 1-8 0"></path>
+                </svg>
+              {% endif %}
+            </div>
+
+            <h3 class="project-title">{{ project.title }}</h3>
+            <p class="project-desc">{{ project.description }}</p>
+
+            <div class="project-tags">
+              {% for tag in project.tags %}
+                <span class="project-tag">{{ tag }}</span>
+              {% endfor %}
+            </div>
+          </div>
+
+          <div class="project-links">
+            {% if project.github %}
+              <a href="{{ project.github }}" target="_blank" rel="noopener noreferrer" class="project-action-link">
+                <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path>
+                </svg>
+                <span>Code</span>
+              </a>
+            {% endif %}
+            {% if project.demo %}
+              <a href="{{ project.demo }}" target="_blank" rel="noopener noreferrer" class="project-action-link">
+                <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
+                  <polyline points="15 3 21 3 21 9"></polyline>
+                  <line x1="10" y1="14" x2="21" y2="3"></line>
+                </svg>
+                <span>Live Demo</span>
+              </a>
+            {% endif %}
+          </div>
+        </div>
+      {% endif %}
+    {% endfor %}
+  </div>
+</section>
+
+<!-- Latest Articles Section -->
+<section class="section-container" id="blog">
+  <div class="section-header">
+    <div>
+      <h2 class="section-title">Latest Articles</h2>
+      <p class="section-desc">Thoughts, tutorials, and practical insights on engineering.</p>
+    </div>
+  </div>
+
+  <div class="posts-list">
+    {% for post in site.posts limit:5 %}
+      <a href="{{ post.url | relative_url }}" class="post-card">
+        <div class="post-card-meta">
+          <time datetime="{{ post.date | date_to_xmlschema }}">
+            {{ post.date | date: "%B %d, %Y" }}
+          </time>
+          <span>&bull;</span>
+          <span>
+            {% assign words = post.content | number_of_words %}
+            {% if words < 360 %}1 min read{% else %}{{ words | divided_by: 180 }} min read{% endif %}
+          </span>
+          {% if post.category %}
+            <span>&bull;</span>
+            <span class="post-category-badge">{{ post.category }}</span>
+          {% endif %}
+        </div>
+
+        <h3 class="post-card-title">{{ post.title }}</h3>
+        
+        <p class="post-card-excerpt">
+          {% if post.excerpt %}
+            {{ post.excerpt | strip_html | truncatewords: 28 }}
+          {% else %}
+            {{ post.content | strip_html | truncatewords: 28 }}
+          {% endif %}
+        </p>
+
+        <div class="post-card-footer">
+          <div class="post-card-tags">
+            {% for tag in post.tags %}
+              <span class="project-tag">#{{ tag }}</span>
+            {% endfor %}
+          </div>
+
+          <span class="read-more-indicator">
+            <span>Read Article</span>
+            <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2">
+              <line x1="5" y1="12" x2="19" y2="12"></line>
+              <polyline points="12 5 19 12 12 19"></polyline>
+            </svg>
+          </span>
+        </div>
+      </a>
+    {% else %}
+      <p style="color: var(--text-muted); font-style: italic;">No articles published yet. Check back soon!</p>
+    {% endfor %}
+  </div>
+</section>

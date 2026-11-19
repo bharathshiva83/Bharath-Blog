@@ -1,0 +1,31 @@
+- title: "AI Dev Assistant Platform"
+  description: "An intelligent context-aware developer assistant utilizing LLMs to streamline code generation, testing, and debugging workflows."
+  tags: ["TypeScript", "Next.js", "Python", "FastAPI"]
+  github: "https://github.com/bharathshiva83"
+  demo: "https://bharathshiva83.github.io"
+  featured: true
+  icon: "code"
+
+- title: "Cloud Scale Analytics Dashboard"
+  description: "High-throughput telemetry dashboard handling real-time data streaming, dynamic metric charts, and anomaly alerts."
+  tags: ["React", "TailwindCSS", "Node.js", "WebSocket"]
+  github: "https://github.com/bharathshiva83"
+  demo: "https://bharathshiva83.github.io"
+  featured: true
+  icon: "chart"
+
+- title: "Modern E-Commerce Engine"
+  description: "Headless e-commerce platform with microservices architecture, Stripe integration, and sub-second page loads."
+  tags: ["Go", "Docker", "PostgreSQL", "Redis"]
+  github: "https://github.com/bharathshiva83"
+  demo: "https://bharathshiva83.github.io"
+  featured: true
+  icon: "bag"
+
+- title: "Minimalist Markdown Editor"
+  description: "Distraction-free web-based markdown editor with real-time preview, math formulas (KaTeX), and export to PDF."
+  tags: ["JavaScript", "CSS3", "PWA", "IndexedDB"]
+  github: "https://github.com/bharathshiva83"
+  demo: "https://bharathshiva83.github.io"
+  featured: false
+  icon: "document"
