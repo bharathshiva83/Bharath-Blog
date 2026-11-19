@@ -1,0 +1,251 @@
+---
+import { getCollection } from 'astro:content';
+import Layout from '../layouts/Layout.astro';
+import { personalInfo, experiences, projects, publications } from '../data/profile';
+
+const allPosts = await getCollection('blog');
+const sortedPosts = allPosts.sort((a, b) => b.data.publishDate.valueOf() - a.data.publishDate.valueOf());
+const baseUrl = import.meta.env.BASE_URL.replace(/\/$/, '');
+---
+
+<Layout title={personalInfo.name + " — " + personalInfo.role}>
+  <!-- 1. Intro / Hero -->
+  <section class="space-y-4 mb-16" id="about">
+    <div class="flex items-center gap-3">
+      <h1 class="text-2xl font-bold tracking-tight text-neutral-900 dark:text-neutral-100">
+        {personalInfo.name}
+      </h1>
+      <span class="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full text-[11px] font-mono font-medium text-emerald-700 dark:text-emerald-400 bg-emerald-50 dark:bg-emerald-950/60 border border-emerald-200 dark:border-emerald-800/80">
+        <span class="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></span>
+        {personalInfo.status}
+      </span>
+    </div>
+
+    <p class="text-neutral-600 dark:text-neutral-400 text-sm leading-relaxed max-w-xl">
+      {personalInfo.tagline}
+    </p>
+
+    <!-- Social & Quick Links -->
+    <div class="flex items-center gap-4 text-xs font-mono pt-1 text-neutral-500 dark:text-neutral-400">
+      <a
+        href={personalInfo.socials.linkedin}
+        target="_blank"
+        rel="noopener noreferrer"
+        class="hover:text-neutral-900 dark:hover:text-neutral-100 transition-colors underline underline-offset-4 decoration-neutral-300 dark:decoration-neutral-700"
+      >
+        LinkedIn ↗
+      </a>
+      <a
+        href={personalInfo.socials.github}
+        target="_blank"
+        rel="noopener noreferrer"
+        class="hover:text-neutral-900 dark:hover:text-neutral-100 transition-colors underline underline-offset-4 decoration-neutral-300 dark:decoration-neutral-700"
+      >
+        GitHub ↗
+      </a>
+      <a
+        href={"mailto:" + personalInfo.email}
+        class="hover:text-neutral-900 dark:hover:text-neutral-100 transition-colors underline underline-offset-4 decoration-neutral-300 dark:decoration-neutral-700"
+      >
+        Email ↗
+      </a>
+      <a
+        href={baseUrl + "/resume"}
+        class="hover:text-neutral-900 dark:hover:text-neutral-100 transition-colors underline underline-offset-4 decoration-neutral-300 dark:decoration-neutral-700"
+      >
+        Resume →
+      </a>
+    </div>
+  </section>
+
+  <!-- 2. About Me Narrative -->
+  <section class="space-y-3 mb-16 text-sm text-neutral-600 dark:text-neutral-400 leading-relaxed">
+    <h2 class="text-xs font-mono uppercase tracking-wider text-neutral-400 dark:text-neutral-500 font-semibold">
+      About
+    </h2>
+    {personalInfo.about.map((p) => (
+      <p>{p}</p>
+    ))}
+  </section>
+
+  <!-- 3. Work Experience -->
+  <section class="space-y-6 mb-16" id="experience">
+    <div class="flex items-center justify-between">
+      <h2 class="text-xs font-mono uppercase tracking-wider text-neutral-400 dark:text-neutral-500 font-semibold">
+        Work Experience
+      </h2>
+      <a href={baseUrl + "/resume"} class="text-xs font-mono text-neutral-400 hover:text-neutral-900 dark:hover:text-neutral-100 transition-colors">
+        Full Resume →
+      </a>
+    </div>
+
+    <div class="space-y-6">
+      {experiences.map((exp) => (
+        <div class="group relative pl-4 border-l border-neutral-200 dark:border-neutral-800 hover:border-neutral-400 dark:hover:border-neutral-600 transition-colors">
+          <div class="flex items-baseline justify-between gap-2">
+            <h3 class="text-sm font-semibold text-neutral-900 dark:text-neutral-100">
+              {exp.role} <span class="text-neutral-400 font-normal">· {exp.company}</span>
+            </h3>
+            <span class="text-xs font-mono text-neutral-400 dark:text-neutral-500 whitespace-nowrap">
+              {exp.period}
+            </span>
+          </div>
+          <p class="text-xs text-neutral-600 dark:text-neutral-400 mt-1 leading-relaxed">
+            {exp.description}
+          </p>
+        </div>
+      ))}
+    </div>
+  </section>
+
+  <!-- 4. Selected Projects -->
+  <section class="space-y-6 mb-16" id="projects">
+    <div class="flex items-center justify-between">
+      <h2 class="text-xs font-mono uppercase tracking-wider text-neutral-400 dark:text-neutral-500 font-semibold">
+        Projects
+      </h2>
+      <a href="https://github.com/bharathshiva83" target="_blank" rel="noopener noreferrer" class="text-xs font-mono text-neutral-400 hover:text-neutral-900 dark:hover:text-neutral-100 transition-colors">
+        GitHub Profile ↗
+      </a>
+    </div>
+
+    <div class="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
+      {projects.map((proj) => (
+        <div class="p-4 rounded-lg bg-neutral-50/60 dark:bg-neutral-900/40 border border-neutral-200/80 dark:border-neutral-800/80 hover:border-neutral-300 dark:hover:border-neutral-700 transition-all flex flex-col justify-between">
+          <div>
+            <div class="flex items-center justify-between gap-2 mb-1.5">
+              <h3 class="text-sm font-semibold text-neutral-900 dark:text-neutral-100">
+                {proj.title}
+              </h3>
+              <div class="flex items-center gap-2 text-xs font-mono text-neutral-400">
+                {proj.github && (
+                  <a href={proj.github} target="_blank" rel="noopener noreferrer" class="hover:text-neutral-900 dark:hover:text-neutral-100 transition-colors" title="View Source">
+                    Code
+                  </a>
+                )}
+                {proj.demo && (
+                  <a href={proj.demo} target="_blank" rel="noopener noreferrer" class="hover:text-neutral-900 dark:hover:text-neutral-100 transition-colors" title="Live Preview">
+                    Live
+                  </a>
+                )}
+              </div>
+            </div>
+            <p class="text-xs text-neutral-600 dark:text-neutral-400 leading-relaxed mb-3">
+              {proj.description}
+            </p>
+          </div>
+
+          <div class="flex flex-wrap gap-1.5 pt-2 border-t border-neutral-150 dark:border-neutral-800/60">
+            {proj.tags.map((tag) => (
+              <span class="text-[10px] font-mono px-1.5 py-0.5 rounded bg-neutral-100 dark:bg-neutral-800 text-neutral-600 dark:text-neutral-400">
+                {tag}
+              </span>
+            ))}
+          </div>
+        </div>
+      ))}
+    </div>
+  </section>
+
+  <!-- Publications -->
+  {publications && publications.length > 0 && (
+    <section class="space-y-6 mb-16" id="publications">
+      <div class="flex items-center justify-between">
+        <h2 class="text-xs font-mono uppercase tracking-wider text-neutral-400 dark:text-neutral-500 font-semibold">
+          Publications
+        </h2>
+        <span class="text-xs font-mono text-neutral-400">
+          Peer-reviewed research
+        </span>
+      </div>
+
+      <div class="space-y-3 text-xs">
+        {publications.map((pub) => (
+          <div class="p-4 rounded-lg bg-neutral-50/60 dark:bg-neutral-900/40 border border-neutral-200/80 dark:border-neutral-800/80 space-y-1.5">
+            <div class="flex flex-col sm:flex-row sm:items-baseline justify-between gap-1">
+              <span class="text-sm font-semibold text-neutral-900 dark:text-neutral-100">{pub.title}</span>
+              <span class="font-mono text-neutral-400 whitespace-nowrap">{pub.date}</span>
+            </div>
+            <p class="text-neutral-500 text-[11px] font-mono">{pub.authors} &bull; {pub.journal}</p>
+            <div class="flex flex-wrap items-center gap-3 pt-1">
+              {pub.paper && (
+                <a
+                  href={pub.paper}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  class="inline-flex items-center gap-1 font-mono text-[11px] font-medium text-neutral-900 dark:text-neutral-100 underline underline-offset-2 hover:opacity-80"
+                >
+                  <svg class="w-3 h-3" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                    <polyline points="14 2 14 8 20 8"></polyline>
+                    <line x1="16" y1="13" x2="8" y2="13"></line>
+                    <line x1="16" y1="17" x2="8" y2="17"></line>
+                  </svg>
+                  Read Paper PDF ↗
+                </a>
+              )}
+              {pub.doi && (
+                <a href={pub.link} target="_blank" rel="noopener noreferrer" class="font-mono text-[11px] underline text-neutral-500 hover:text-neutral-900 dark:hover:text-neutral-100">
+                  DOI: {pub.doi} ↗
+                </a>
+              )}
+            </div>
+          </div>
+        ))}
+      </div>
+    </section>
+  )}
+
+  <!-- 5. Writing / Blog Posts -->
+  <section class="space-y-6 mb-16" id="writing">
+    <div class="flex items-center justify-between">
+      <h2 class="text-xs font-mono uppercase tracking-wider text-neutral-400 dark:text-neutral-500 font-semibold">
+        Writing
+      </h2>
+      <span class="text-xs font-mono text-neutral-400">
+        {sortedPosts.length} posts
+      </span>
+    </div>
+
+    <div class="space-y-1">
+      {sortedPosts.map((post) => {
+        const dateStr = new Date(post.data.publishDate).toLocaleDateString('en-US', {
+          month: 'short',
+          day: 'numeric',
+          year: 'numeric'
+        });
+        const words = post.body.trim().split(/\s+/).length;
+        const readTime = Math.max(1, Math.ceil(words / 200));
+
+        return (
+          <a
+            href={baseUrl + "/blog/" + post.slug}
+            class="group flex items-baseline justify-between py-2.5 -mx-2 px-2 rounded-md hover:bg-neutral-100 dark:hover:bg-neutral-900/60 transition-colors"
+          >
+            <div class="flex items-baseline gap-3 min-w-0 pr-4">
+              <span class="text-xs font-mono text-neutral-400 dark:text-neutral-500 shrink-0 w-24">
+                {dateStr}
+              </span>
+              <span class="text-sm font-medium text-neutral-900 dark:text-neutral-100 group-hover:text-neutral-600 dark:group-hover:text-neutral-300 transition-colors truncate">
+                {post.data.title}
+              </span>
+            </div>
+            <span class="text-xs font-mono text-neutral-400 dark:text-neutral-500 shrink-0 opacity-0 group-hover:opacity-100 transition-opacity">
+              {readTime}m read →
+            </span>
+          </a>
+        );
+      })}
+    </div>
+  </section>
+
+  <!-- 6. Connect -->
+  <section class="p-6 rounded-xl bg-neutral-50/60 dark:bg-neutral-900/40 border border-neutral-200/80 dark:border-neutral-800/80 space-y-3">
+    <h3 class="text-sm font-semibold text-neutral-900 dark:text-neutral-100">
+      Get in touch
+    </h3>
+    <p class="text-xs text-neutral-600 dark:text-neutral-400 leading-relaxed">
+      Whether you would like to collaborate, discuss open engineering positions, or talk about system design, feel free to connect on <a href={personalInfo.socials.linkedin} target="_blank" rel="noopener noreferrer" class="underline underline-offset-2 hover:text-neutral-900 dark:hover:text-neutral-100">LinkedIn</a> or send an <a href={"mailto:" + personalInfo.email} class="underline underline-offset-2 hover:text-neutral-900 dark:hover:text-neutral-100">email</a>.
+    </p>
+  </section>
+</Layout>

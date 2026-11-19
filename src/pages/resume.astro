@@ -1,0 +1,297 @@
+---
+import Layout from '../layouts/Layout.astro';
+import { personalInfo, resume, experiences, skills, education, publications, projects } from '../data/profile';
+const baseUrl = import.meta.env.BASE_URL.replace(/\/$/, '');
+---
+
+<Layout title={`Resume — ${personalInfo.name}`}>
+  <div class="space-y-10">
+    <!-- Header with Action -->
+    <div class="flex flex-col sm:flex-row sm:items-start justify-between gap-4 pb-6 border-b border-neutral-200 dark:border-neutral-800">
+      <div>
+        <h1 class="text-2xl font-bold tracking-tight text-neutral-900 dark:text-neutral-100">
+          {personalInfo.name}
+        </h1>
+        <p class="text-xs font-mono text-neutral-500 dark:text-neutral-400 mt-1">
+          {personalInfo.role} &bull; {personalInfo.location} {personalInfo.phone && `• ${personalInfo.phone}`}
+        </p>
+        <div class="flex flex-wrap items-center gap-4 text-xs font-mono mt-3 text-neutral-500">
+          <a href={personalInfo.socials.linkedin} target="_blank" rel="noopener noreferrer" class="hover:underline">LinkedIn ↗</a>
+          <a href={personalInfo.socials.github} target="_blank" rel="noopener noreferrer" class="hover:underline">GitHub ↗</a>
+          <a href={"mailto:" + personalInfo.email} class="hover:underline">{personalInfo.email}</a>
+        </div>
+      </div>
+
+      <!-- Action Buttons -->
+      <div class="flex flex-wrap items-center gap-2 shrink-0 no-print">
+        {resume.pdfUrl && (
+          <a
+            id="download-resume-link"
+            href={resume.pdfUrl + "?download=1"}
+            download="Palancha_Bharath_Shiva_Resume.pdf"
+            class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-md bg-neutral-900 dark:bg-neutral-100 text-white dark:text-neutral-900 text-xs font-mono hover:opacity-90 transition-opacity cursor-pointer"
+            title="Download PDF to your computer"
+          >
+            <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+              <polyline points="7 10 12 15 17 10"></polyline>
+              <line x1="12" y1="15" x2="12" y2="3"></line>
+            </svg>
+            <span id="download-text">Download PDF</span>
+          </a>
+        )}
+
+        {resume.pdfUrl && (
+          <a
+            href={resume.pdfUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-md border border-neutral-200 dark:border-neutral-800 text-xs font-mono text-neutral-600 dark:text-neutral-400 hover:text-neutral-900 dark:hover:text-neutral-100 hover:bg-neutral-50 dark:hover:bg-neutral-900 transition-colors"
+            title="View PDF directly in browser"
+          >
+            <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
+              <polyline points="15 3 21 3 21 9"></polyline>
+              <line x1="10" y1="14" x2="21" y2="3"></line>
+            </svg>
+            View PDF
+          </a>
+        )}
+
+        <button
+          onclick="window.print()"
+          class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-md border border-neutral-200 dark:border-neutral-800 text-xs font-mono text-neutral-600 dark:text-neutral-400 hover:text-neutral-900 dark:hover:text-neutral-100 hover:bg-neutral-50 dark:hover:bg-neutral-900 transition-colors"
+          title="Print or Save as PDF"
+        >
+          <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <polyline points="6 9 6 2 18 2 18 9"></polyline>
+            <path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"></path>
+            <rect x="6" y="14" width="12" height="8"></rect>
+          </svg>
+          Print
+        </button>
+      </div>
+    </div>
+
+    <!-- Professional Summary -->
+    <section class="space-y-2">
+      <h2 class="text-xs font-mono uppercase tracking-wider text-neutral-400 dark:text-neutral-500 font-semibold">
+        Professional Summary
+      </h2>
+      <p class="text-sm text-neutral-600 dark:text-neutral-400 leading-relaxed font-light">
+        {resume.summary}
+      </p>
+    </section>
+
+    <!-- Work Experience -->
+    <section class="space-y-6">
+      <h2 class="text-xs font-mono uppercase tracking-wider text-neutral-400 dark:text-neutral-500 font-semibold">
+        Work Experience
+      </h2>
+
+      <div class="space-y-6">
+        {experiences.map((exp) => (
+          <div class="space-y-2">
+            <div class="flex flex-col sm:flex-row sm:items-baseline justify-between gap-1">
+              <h3 class="text-sm font-semibold text-neutral-900 dark:text-neutral-100">
+                {exp.role} &mdash; <span class="text-neutral-500 font-normal">{exp.company}</span>
+              </h3>
+              <span class="text-xs font-mono text-neutral-400 whitespace-nowrap">{exp.period}</span>
+            </div>
+            {exp.bullets && (
+              <ul class="text-xs text-neutral-600 dark:text-neutral-400 space-y-1.5 list-disc pl-4 leading-relaxed font-light">
+                {exp.bullets.map((b) => (
+                  <li>{b}</li>
+                ))}
+              </ul>
+            )}
+          </div>
+        ))}
+      </div>
+    </section>
+
+    <!-- Education (JNTUH) -->
+    <section class="space-y-3">
+      <h2 class="text-xs font-mono uppercase tracking-wider text-neutral-400 dark:text-neutral-500 font-semibold">
+        Education
+      </h2>
+      <div class="flex flex-col sm:flex-row sm:items-baseline justify-between gap-1 text-xs">
+        <div>
+          <span class="font-semibold text-neutral-900 dark:text-neutral-100">{education.degree}</span>
+          <div class="text-neutral-500 mt-0.5">{education.institution}</div>
+        </div>
+        <span class="font-mono text-neutral-400 whitespace-nowrap">{education.period}</span>
+      </div>
+    </section>
+
+    <!-- Technical Skills -->
+    <section class="space-y-3">
+      <h2 class="text-xs font-mono uppercase tracking-wider text-neutral-400 dark:text-neutral-500 font-semibold">
+        Skills
+      </h2>
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs">
+        {skills.map((skill) => (
+          <div class="p-3 rounded-lg border border-neutral-200 dark:border-neutral-800 bg-neutral-50/50 dark:bg-neutral-900/30">
+            <span class="font-semibold block text-neutral-900 dark:text-neutral-100 mb-1">{skill.category}</span>
+            <span class="text-neutral-600 dark:text-neutral-400 leading-relaxed font-light">{skill.items}</span>
+          </div>
+        ))}
+      </div>
+    </section>
+
+    <!-- Projects -->
+    <section class="space-y-4">
+      <h2 class="text-xs font-mono uppercase tracking-wider text-neutral-400 dark:text-neutral-500 font-semibold">
+        Key Projects
+      </h2>
+      <div class="space-y-4">
+        {projects.map((proj) => (
+          <div class="space-y-1 text-xs">
+            <div class="flex items-baseline justify-between">
+              <span class="font-semibold text-neutral-900 dark:text-neutral-100">{proj.title}</span>
+              <div class="flex gap-1.5">
+                {proj.tags.slice(0, 3).map((tag) => (
+                  <span class="text-[10px] font-mono text-neutral-400">#{tag}</span>
+                ))}
+              </div>
+            </div>
+            <p class="text-neutral-600 dark:text-neutral-400 leading-relaxed font-light">{proj.description}</p>
+          </div>
+        ))}
+      </div>
+    </section>
+
+    <!-- Publications -->
+    {publications && publications.length > 0 && (
+      <section class="space-y-3">
+        <h2 class="text-xs font-mono uppercase tracking-wider text-neutral-400 dark:text-neutral-500 font-semibold">
+          Publications
+        </h2>
+        <div class="space-y-3 text-xs">
+          {publications.map((pub) => (
+            <div class="p-3.5 rounded-lg border border-neutral-200 dark:border-neutral-800 bg-neutral-50/50 dark:bg-neutral-900/30 space-y-1.5">
+              <div class="flex flex-col sm:flex-row sm:items-baseline justify-between gap-1">
+                <span class="font-semibold text-neutral-900 dark:text-neutral-100">{pub.title}</span>
+                <span class="font-mono text-neutral-400 whitespace-nowrap">{pub.date}</span>
+              </div>
+              <p class="text-neutral-500 text-[11px] font-mono">{pub.authors} &bull; {pub.journal}</p>
+              <p class="text-neutral-600 dark:text-neutral-400 leading-relaxed font-light">{pub.description}</p>
+              <div class="flex flex-wrap items-center gap-3 pt-1">
+                {pub.paper && (
+                  <a
+                    href={pub.paper}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    class="inline-flex items-center gap-1 font-mono text-[11px] font-medium text-neutral-900 dark:text-neutral-100 underline underline-offset-2 hover:opacity-80"
+                  >
+                    <svg class="w-3 h-3" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                      <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                      <polyline points="14 2 14 8 20 8"></polyline>
+                      <line x1="16" y1="13" x2="8" y2="13"></line>
+                      <line x1="16" y1="17" x2="8" y2="17"></line>
+                    </svg>
+                    Read Paper PDF ↗
+                  </a>
+                )}
+                {pub.doi && (
+                  <a href={pub.link} target="_blank" rel="noopener noreferrer" class="font-mono text-[11px] underline text-neutral-500 hover:text-neutral-900 dark:hover:text-neutral-100">
+                    DOI: {pub.doi} ↗
+                  </a>
+                )}
+              </div>
+            </div>
+          ))}
+        </div>
+      </section>
+    )}
+
+    <!-- Back to home -->
+    <div class="pt-6 border-t border-neutral-200 dark:border-neutral-800 text-xs font-mono no-print">
+      <a href={baseUrl + "/"} class="text-neutral-500 hover:text-neutral-900 dark:hover:text-neutral-100 transition-colors">
+        ← Back to home
+      </a>
+    </div>
+  </div>
+
+  <style>
+    @media print {
+      :global(header),
+      :global(footer),
+      .no-print {
+        display: none !important;
+      }
+      :global(body) {
+        background: #ffffff !important;
+        color: #111111 !important;
+      }
+      :global(main) {
+        padding: 0 !important;
+        margin: 0 !important;
+      }
+    }
+  </style>
+
+  <script is:inline define:vars={{ pdfUrl: resume.pdfUrl }}>
+    (function () {
+      let cachedBlobUrl = null;
+
+      async function prepareBlob() {
+        const link = document.getElementById('download-resume-link');
+        if (!link) return;
+
+        try {
+          const res = await fetch(pdfUrl);
+          if (res.ok) {
+            const blob = await res.blob();
+            cachedBlobUrl = window.URL.createObjectURL(blob);
+            link.href = cachedBlobUrl;
+            link.download = 'Palancha_Bharath_Shiva_Resume.pdf';
+          }
+        } catch (e) {
+          console.warn('Blob preload error:', e);
+        }
+      }
+
+      function attachDownloadHandler() {
+        const link = document.getElementById('download-resume-link');
+        const text = document.getElementById('download-text');
+        if (!link) return;
+
+        link.addEventListener('click', async (e) => {
+          if (cachedBlobUrl) {
+            // Native download will fire on cachedBlobUrl without blocking
+            return;
+          }
+          // Fallback if clicked before fetch finished
+          e.preventDefault();
+          if (text) text.textContent = 'Downloading...';
+          try {
+            const res = await fetch(pdfUrl);
+            const blob = await res.blob();
+            const blobUrl = window.URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = blobUrl;
+            a.download = 'Palancha_Bharath_Shiva_Resume.pdf';
+            document.body.appendChild(a);
+            a.click();
+            setTimeout(() => {
+              a.remove();
+              window.URL.revokeObjectURL(blobUrl);
+              if (text) text.textContent = 'Download PDF';
+            }, 1000);
+          } catch (err) {
+            window.location.href = pdfUrl + '?download=1';
+            if (text) text.textContent = 'Download PDF';
+          }
+        });
+      }
+
+      prepareBlob();
+      attachDownloadHandler();
+      document.addEventListener('astro:after-swap', () => {
+        prepareBlob();
+        attachDownloadHandler();
+      });
+    })();
+  </script>
+</Layout>

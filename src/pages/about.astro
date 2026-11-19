@@ -1,0 +1,92 @@
+---
+import Layout from '../layouts/Layout.astro';
+import { personalInfo, skills, education, experiences } from '../data/profile';
+const baseUrl = import.meta.env.BASE_URL.replace(/\/$/, '');
+---
+
+<Layout title={`About — ${personalInfo.name}`}>
+  <div class="space-y-10">
+    <!-- Header -->
+    <div class="space-y-2 pb-6 border-b border-neutral-200 dark:border-neutral-800">
+      <h1 class="text-2xl font-bold tracking-tight text-neutral-900 dark:text-neutral-100">
+        About
+      </h1>
+      <p class="text-xs font-mono text-neutral-500">
+        {personalInfo.role} &bull; {personalInfo.location}
+      </p>
+    </div>
+
+    <!-- Bio Paragraphs -->
+    <div class="space-y-4 text-sm text-neutral-600 dark:text-neutral-400 leading-relaxed font-light">
+      {personalInfo.about.map((p) => (
+        <p>{p}</p>
+      ))}
+    </div>
+
+    <!-- Education (JNTUH) -->
+    <div class="pt-6 border-t border-neutral-200 dark:border-neutral-800 space-y-3">
+      <h2 class="text-xs font-mono uppercase tracking-wider text-neutral-400 dark:text-neutral-500 font-semibold">
+        Education
+      </h2>
+      <div class="flex flex-col sm:flex-row sm:items-baseline justify-between gap-1 text-xs">
+        <div>
+          <span class="font-semibold text-neutral-900 dark:text-neutral-100">{education.degree}</span>
+          <div class="text-neutral-500 mt-0.5">{education.institution}</div>
+        </div>
+        <span class="font-mono text-neutral-400 whitespace-nowrap">{education.period}</span>
+      </div>
+    </div>
+
+    <!-- Technical Focus -->
+    <div class="pt-6 border-t border-neutral-200 dark:border-neutral-800 space-y-3">
+      <h2 class="text-xs font-mono uppercase tracking-wider text-neutral-400 dark:text-neutral-500 font-semibold">
+        Technical Expertise
+      </h2>
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs">
+        {skills.map((skill) => (
+          <div class="p-3 rounded-lg border border-neutral-200 dark:border-neutral-800 bg-neutral-50/50 dark:bg-neutral-900/30">
+            <span class="font-semibold block text-neutral-900 dark:text-neutral-100 mb-1">{skill.category}</span>
+            <span class="text-neutral-600 dark:text-neutral-400 leading-relaxed font-light">{skill.items}</span>
+          </div>
+        ))}
+      </div>
+    </div>
+
+    <!-- Contact & Socials -->
+    <div class="pt-6 border-t border-neutral-200 dark:border-neutral-800 space-y-3">
+      <h2 class="text-xs font-mono uppercase tracking-wider text-neutral-400 dark:text-neutral-500 font-semibold">
+        Connect
+      </h2>
+      <div class="flex flex-wrap items-center gap-5 text-xs font-mono">
+        <a
+          href={personalInfo.socials.linkedin}
+          target="_blank"
+          rel="noopener noreferrer"
+          class="underline hover:text-neutral-900 dark:hover:text-neutral-100"
+        >
+          LinkedIn &nearr;
+        </a>
+        <a
+          href={personalInfo.socials.github}
+          target="_blank"
+          rel="noopener noreferrer"
+          class="underline hover:text-neutral-900 dark:hover:text-neutral-100"
+        >
+          GitHub &nearr;
+        </a>
+        <a
+          href={"mailto:" + personalInfo.email}
+          class="underline hover:text-neutral-900 dark:hover:text-neutral-100"
+        >
+          Email &nearr;
+        </a>
+        <a
+          href={`${baseUrl}/resume`}
+          class="underline hover:text-neutral-900 dark:hover:text-neutral-100"
+        >
+          Resume &rarr;
+        </a>
+      </div>
+    </div>
+  </div>
+</Layout>

@@ -1,0 +1,147 @@
+---
+import { getCollection } from 'astro:content';
+import Layout from '../../layouts/Layout.astro';
+
+export async function getStaticPaths() {
+  const posts = await getCollection('blog');
+  return posts.map(post => ({
+    params: { slug: post.slug },
+    props: { post },
+  }));
+}
+
+const { post } = Astro.props;
+const { Content } = await post.render();
+
+// Reading time calculation
+const words = post.body.trim().split(/\s+/).length;
+const readTime = Math.max(1, Math.ceil(words / 200));
+
+const formattedDate = new Date(post.data.publishDate).toLocaleDateString('en-US', {
+  month: 'short',
+  day: 'numeric',
+  year: 'numeric',
+});
+
+// Related posts
+const allPosts = await getCollection('blog');
+const otherPosts = allPosts
+  .filter(p => p.slug !== post.slug)
+  .slice(0, 2);
+
+const baseUrl = import.meta.env.BASE_URL.replace(/\/$/, '');
+---
+
+<Layout 
+  title={`${post.data.title} — Bharath Shiva`} 
+  description={post.data.description}
+>
+  <!-- Back Link -->
+  <div class="mb-8">
+    <a 
+      href={`${baseUrl}/#writing`} 
+      class="inline-flex items-center gap-1.5 text-xs font-mono text-neutral-400 hover:text-neutral-900 dark:hover:text-neutral-100 transition-colors"
+    >
+      &larr; Back to writing
+    </a>
+  </div>
+
+  <article class="space-y-8">
+    <!-- Header -->
+    <header class="space-y-3 pb-8 border-b border-neutral-200 dark:border-neutral-800">
+      <div class="flex items-center gap-2 text-xs font-mono text-neutral-400">
+        <time datetime={post.data.publishDate.toISOString()}>{formattedDate}</time>
+        <span>&bull;</span>
+        <span>{readTime} min read</span>
+        <span>&bull;</span>
+        <span>{post.data.category}</span>
+      </div>
+
+      <h1 class="text-2xl sm:text-3xl font-bold tracking-tight text-neutral-900 dark:text-neutral-100 leading-snug">
+        {post.data.title}
+      </h1>
+
+      <p class="text-sm text-neutral-600 dark:text-neutral-400 leading-relaxed font-light">
+        {post.data.description}
+      </p>
+    </header>
+
+    <!-- Main Content -->
+    <div class="prose dark:prose-invert max-w-none text-sm sm:text-base leading-relaxed text-neutral-700 dark:text-neutral-300">
+      <Content />
+    </div>
+
+    <!-- Tags -->
+    <div class="pt-8 border-t border-neutral-200 dark:border-neutral-800 flex items-center gap-2 flex-wrap text-xs font-mono text-neutral-400">
+      <span>Tags:</span>
+      {post.data.tags.map(tag => (
+        <span class="px-2 py-0.5 rounded bg-neutral-100 dark:bg-neutral-900 text-neutral-600 dark:text-neutral-400">
+          #{tag}
+        </span>
+      ))}
+    </div>
+
+    <!-- Author & Feedback Box -->
+    <div class="p-5 rounded-lg border border-neutral-200 dark:border-neutral-800 bg-neutral-50/50 dark:bg-neutral-900/30 text-xs text-neutral-600 dark:text-neutral-400 space-y-2">
+      <div class="font-semibold text-neutral-900 dark:text-neutral-100">Written by Bharath Shiva</div>
+      <p>
+        Questions, thoughts, or suggestions? Feel free to reach out directly via <a href="https://www.linkedin.com/in/palanchabharath" target="_blank" rel="noopener noreferrer" class="underline hover:text-neutral-900 dark:hover:text-neutral-100">LinkedIn</a> or <a href="mailto:bharathshiva83@gmail.com" class="underline hover:text-neutral-900 dark:hover:text-neutral-100">Email</a>.
+      </p>
+    </div>
+
+    <!-- More Posts -->
+    {otherPosts.length > 0 && (
+      <div class="pt-8 border-t border-neutral-200 dark:border-neutral-800 space-y-4">
+        <h3 class="text-xs font-mono uppercase tracking-wider text-neutral-400 dark:text-neutral-500 font-semibold">
+          More writing
+        </h3>
+        <div class="space-y-2">
+          {otherPosts.map(p => (
+            <a
+              href={`${baseUrl}/blog/${p.slug}`}
+              class="group flex items-baseline justify-between py-1.5 text-xs text-neutral-600 dark:text-neutral-400 hover:text-neutral-900 dark:hover:text-neutral-100 transition-colors"
+            >
+              <span class="font-medium truncate group-hover:underline">{p.data.title}</span>
+              <span class="font-mono text-neutral-400 shrink-0 ml-2">&rarr;</span>
+            </a>
+          ))}
+        </div>
+      </div>
+    )}
+  </article>
+</Layout>
+
+<!-- Code Copy Script -->
+<script>
+  function addCopyButtons() {
+    const codeBlocks = document.querySelectorAll('pre.astro-code');
+    codeBlocks.forEach(block => {
+      if (block.querySelector('.code-copy-btn')) return;
+
+      const button = document.createElement('button');
+      button.className = 'code-copy-btn';
+      button.textContent = 'Copy';
+      button.setAttribute('aria-label', 'Copy code snippet');
+
+      button.addEventListener('click', async () => {
+        const code = block.querySelector('code')?.innerText || block.innerText;
+        try {
+          await navigator.clipboard.writeText(code);
+          button.textContent = 'Copied';
+          button.classList.add('copied');
+          setTimeout(() => {
+            button.textContent = 'Copy';
+            button.classList.remove('copied');
+          }, 1800);
+        } catch (err) {
+          button.textContent = 'Failed';
+        }
+      });
+
+      block.appendChild(button);
+    });
+  }
+
+  addCopyButtons();
+  document.addEventListener('astro:after-swap', addCopyButtons);
+</script>

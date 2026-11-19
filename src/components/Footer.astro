@@ -1,0 +1,35 @@
+---
+import { personalInfo } from '../data/profile';
+const currentYear = new Date().getFullYear();
+---
+
+<footer class="mt-24 pt-8 pb-12 border-t border-neutral-150 dark:border-neutral-900/80 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-neutral-500 dark:text-neutral-500 font-mono">
+  <div>
+    &copy; {currentYear} {personalInfo.name}
+  </div>
+
+  <div class="flex items-center gap-5">
+    <a
+      href={personalInfo.socials.linkedin}
+      target="_blank"
+      rel="noopener noreferrer"
+      class="hover:text-neutral-900 dark:hover:text-neutral-100 transition-colors"
+    >
+      LinkedIn
+    </a>
+    <a
+      href={personalInfo.socials.github}
+      target="_blank"
+      rel="noopener noreferrer"
+      class="hover:text-neutral-900 dark:hover:text-neutral-100 transition-colors"
+    >
+      GitHub
+    </a>
+    <a
+      href={"mailto:" + personalInfo.email}
+      class="hover:text-neutral-900 dark:hover:text-neutral-100 transition-colors"
+    >
+      Email
+    </a>
+  </div>
+</footer>
