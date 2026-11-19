@@ -79,4 +79,14 @@ All website data is controlled from a single configuration file: **[`src/data/pr
 - Synchronized all FPS references from `20+ FPS` to `30+ FPS` across resume summary, job bullets, and project cards.
 - Configured GitHub Actions Pages deployment (`Source: GitHub Actions`), verified live production build at `https://bharathshiva83.github.io/Bharath-Blog/`.
 
+---
+
+## 6. Next Phase Roadmap (Planned Work)
+
+- [ ] **Visual Assets & Media**: Add project screenshots, architecture diagrams, and hardware photos (Jetson, PTZ setups) to make project cards and articles visual.
+- [ ] **Technical Writing Overhaul**: Replace generic posts with in-depth AI/Computer Vision technical write-ups (e.g., *Deploying YOLOv11 at 30+ FPS on Jetson*, *Continuous Target Tracking with ByteTrack*, *Super-Resolution in Edge Surveillance*).
+- [ ] **Expand Projects & Publications**: Add upcoming computer vision pipelines, open-source repos, and new research papers into [`src/data/profile.ts`](file:///c:/Users/BHARATH%20SHIVA/Documents/GitHub/Bharath%20Blog/src/data/profile.ts).
+- [ ] **Optional Privacy Tweak**: Remove or mask personal phone number if bot scraping becomes a concern.
+
+
 
