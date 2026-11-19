@@ -19,7 +19,7 @@ export const personalInfo = {
   },
   about: [
     "I am an AI & Computer Vision Engineer with experience building and deploying real-time object detection, multi-object tracking, and edge-inference systems. My work focuses on training custom deep learning models end-to-end—from dataset curation and annotation to model architecture optimization for GPU and embedded edge platforms (NVIDIA Jetson Nano/Orin).",
-    "At EON Space Labs, I lead the development of multi-sensor PTZ surveillance systems, building custom YOLOv8/v11 pipelines achieving 20+ FPS real-time inference in field-validated deployments, paired with PyQt5 operator control GUIs and super-resolution video enhancement (FSRCNN, EDSR).",
+    "At EON Space Labs, I lead the development of multi-sensor PTZ surveillance systems, building custom YOLOv8/v11 pipelines achieving 30+ FPS real-time inference in field-validated deployments, paired with PyQt5 operator control GUIs and super-resolution video enhancement (FSRCNN, EDSR).",
     "I believe in building AI that runs reliably in real-world operating environments with strict latency constraints and deterministic hardware integration."
   ]
 };
